@@ -453,7 +453,7 @@ namespace Mazindlu.Data
             {
                 return false;
                 Console.WriteLine(e);
-                Console.WriteLine(e);
+                
             }
             return true;
         }
@@ -506,13 +506,11 @@ namespace Mazindlu.Data
             try
             {
                 bookProvider = _context.BookProviders.FirstOrDefault(bp => bp.Email.Equals(user_name) & bp.Password.Equals(pass_word));
-                Console.WriteLine(bookProvider);
-               
+                
+                //             
                 bookProvider.Books = new LinkedList<Book>();
-                Console.WriteLine(bookProvider);
+                //
                 bookProvider.Books = GetBooksOfBookProvider((int)(bookProvider.Id));
-                Console.WriteLine(bookProvider);
-                Console.WriteLine(bookProvider);
                 GetBookProviderPictureofUser(bookProvider);
             }
             catch (ArgumentException ae)

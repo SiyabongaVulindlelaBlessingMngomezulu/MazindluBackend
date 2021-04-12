@@ -11,8 +11,8 @@ using Microsoft.AspNetCore.JsonPatch;
 using Mazindlu.Data;
 using Microsoft.AspNetCore.Cors;
 using System.Net;
-using System.Web;// 
-
+using System.Web;
+// 
 /**
  * Note ! BookProviderPicture and PropertyProviderPicture POCOs/entities/models are not created, read, updated or deleted 
  * directly, but they are created, accessed, changed and deleted via their aggregate relationships with 
@@ -63,6 +63,7 @@ namespace Mazindlu.Controllers
             // IEnumerable<BookProviderPicture> bookproviderPictures = mur.GetBookProviderPictures().Values.ToList();
             Console.WriteLine(bookProviders);
             Console.WriteLine(bookProviders);
+
 
             foreach (var b in bookProvidersIncomplete) {
                 //mur.GetBookProviderPictureofUser(b);
@@ -158,7 +159,10 @@ namespace Mazindlu.Controllers
             HttpContext context = Request.HttpContext;
             // var url = context.Request.G
             string url = Microsoft.AspNetCore.Http.Extensions.UriHelper.GetEncodedUrl(context.Request);
-           
+            if (username == null || password == null)
+            {
+                return NotFound();
+            }
             string[] parts = url.Split('?');
             string pathString = parts[0];
 
@@ -187,7 +191,47 @@ namespace Mazindlu.Controllers
             // var url = context.Request.G
             string url = Microsoft.AspNetCore.Http.Extensions.UriHelper.GetEncodedUrl(context.Request);
             Console.WriteLine("Yes !!!\n" + url);
-             //Microsoft.AspNetCore.Http.HttpRequest //request = new Microsoft.AspNetCore.Http.HttpRequest();
+            string relativeURI = Microsoft.AspNetCore.Http.Extensions.UriHelper.GetEncodedPathAndQuery(Request);
+
+            string[] parts = relativeURI.Split('?');
+            Console.WriteLine(url);
+            Console.WriteLine(url);
+            Console.WriteLine(relativeURI);
+            Console.WriteLine(relativeURI);
+
+            foreach (var part in parts)
+            {
+                Console.WriteLine(part);
+            }
+
+            string[] queryParameters = null;
+            //queryParameters = parts[1].Split('&');
+
+            if (!(relativeURI.Contains('?')) || !(relativeURI.Contains('&')))
+            {
+                IEnumerable<PropertyProvider> propertyprovidersList = mur.GetPropertyProviders();
+                Console.WriteLine(propertyprovidersList);
+                return Ok(propertyprovidersList);
+            }
+            else
+            {
+                return NotFound();
+            }
+           
+
+            /*
+            if ((queryParameters.Length > 0) && (parts.Length > 0))
+            {
+                return NotFound();
+            }
+
+            foreach (var qp in queryParameters)
+            {
+                Console.WriteLine(qp);
+            }
+            */
+
+            //Microsoft.AspNetCore.Http.HttpRequest //request = new Microsoft.AspNetCore.Http.HttpRequest();
             /*
             using Microsoft.AspNetCore.Mvc;
             using Mazindlu.Model;
@@ -196,9 +240,7 @@ namespace Mazindlu.Controllers
             using Mazindlu.Data;
             */
             //Console.WriteLine(Request.Path);
-            IEnumerable<PropertyProvider> propertyprovidersList = mur.GetPropertyProviders();
-            Console.WriteLine(propertyprovidersList);
-            return Ok(propertyprovidersList);
+           
         }
 
         [Route("pp/")]
