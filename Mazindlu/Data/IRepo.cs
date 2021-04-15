@@ -70,7 +70,7 @@ namespace Mazindlu.Data
         public Dictionary<int, BookPicture> GetBookPictures();
 
 
-        public bool CreateBookPicture(BookPicture bookPicture);
+        public bool CreateBookPicture(int BookProviderId, BookPicture bookPicture);
 
 
         public bool UpdateBookPicture(BookPicture bookPicture);

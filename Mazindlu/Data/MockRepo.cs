@@ -398,7 +398,7 @@ namespace Mazindlu.Data
             throw new NotImplementedException();
         }
 
-        bool IRepo.CreateBookPicture(BookPicture bookPicture)
+        bool IRepo.CreateBookPicture(int BookProviderId, BookPicture bookPicture)
         {
             throw new NotImplementedException();
         }

@@ -171,7 +171,7 @@ namespace Mazindlu.Controllers
             string[] queryParameters = queryString.Split('=');
             PropertyProvider pp = null;
             pp = mur.GetPropertyProvider(username,password);
-            Console.WriteLine(queryParameters);
+            
             if (pp == null) {
                 return NotFound();
             }
@@ -188,16 +188,13 @@ namespace Mazindlu.Controllers
         {
 
             HttpContext context = Request.HttpContext;
-            // var url = context.Request.G
+            
             string url = Microsoft.AspNetCore.Http.Extensions.UriHelper.GetEncodedUrl(context.Request);
-            Console.WriteLine("Yes !!!\n" + url);
+           
             string relativeURI = Microsoft.AspNetCore.Http.Extensions.UriHelper.GetEncodedPathAndQuery(Request);
 
             string[] parts = relativeURI.Split('?');
-            Console.WriteLine(url);
-            Console.WriteLine(url);
-            Console.WriteLine(relativeURI);
-            Console.WriteLine(relativeURI);
+           
 
             foreach (var part in parts)
             {
@@ -274,6 +271,12 @@ namespace Mazindlu.Controllers
         [HttpPatch()]
         public ActionResult UpdatePropertyProvider(PropertyProvider pp) {
 
+           
+            string path   = Request.Path;
+            string[] things = path.Split('/');
+            pp.Id = UInt16.Parse(things.Last<string>());
+            
+            Console.WriteLine(things);
             bool isUpdated = mur.UpdatePropertyProvider(pp);
             if (isUpdated) {
                 return Ok();
@@ -292,7 +295,7 @@ namespace Mazindlu.Controllers
             bool isDeleted = mur.DeletePropertyProvider(id);
             if (isDeleted)
             {
-                return Ok();
+                return NoContent();
             }
             else
             {
@@ -411,7 +414,16 @@ namespace Mazindlu.Controllers
         [HttpGet()]
         public ActionResult<List<Book>> GetBooks()
         {
-            return Ok(mur.GetBooks().Values.ToList());
+            // return Ok(mur.GetBooks().Values.ToList());
+            var books = mur.GetBooks().Values.ToList();
+
+
+            var livres = new List<Book>();
+            foreach (var book in books)
+            {
+                livres.Add(mur.GetBook(book.Id));
+            }
+            return livres;
         }
 
 
@@ -419,11 +431,25 @@ namespace Mazindlu.Controllers
         [HttpPost()]
         public ActionResult CreateBook(Book book)
         {
-           
-
+            Console.WriteLine("We're in");
+            Console.WriteLine("We're in");
             if (mur.CreateBook(book))
             {
-                return Created("https://localhost:5001/jeff/bezos/b/", book);
+                bool areAllPicturesInserted = false;
+                foreach (BookPicture bookPicture  in book.BookPictures)
+                {
+                    Console.WriteLine("preparing to insert pictures !");
+                    areAllPicturesInserted = mur.CreateBookPicture(book.Id, bookPicture);
+                }
+                if (areAllPicturesInserted)
+                {
+                    return Created("https://localhost:5001/jeff/bezos/b/", book);
+                }
+                else {
+                    mur.DeleteBook(book.Id);
+                    return BadRequest();
+                }
+                
             }
             else
             {
@@ -466,7 +492,6 @@ namespace Mazindlu.Controllers
         {
             var book = mur.GetBook(id);
             
-
             if (book == null)
             {
                 return NotFound();

@@ -55,3 +55,4 @@ C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\obj\Debug\netcoreapp3.1\staticweb
 C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\obj\Debug\netcoreapp3.1\Mazindlu.dll
 C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\obj\Debug\netcoreapp3.1\Mazindlu.pdb
 C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\obj\Debug\netcoreapp3.1\Mazindlu.genruntimeconfig.cache
+C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\obj\Debug\netcoreapp3.1\Mazindlu.csprojAssemblyReference.cache

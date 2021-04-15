@@ -217,11 +217,16 @@ namespace Mazindlu.Data
                 // _context.PropertyProviders.Remove(propertyProvider);
                 bool isPropertyProviderDeleted = DeleteAPropertyProvider(id);
                 //_context.SaveChanges();
+                Console.WriteLine(result);
+                Console.WriteLine(arePropertiesDeleted);
+                Console.WriteLine(isPropertyProviderDeleted);
+                Console.WriteLine();
                 if (isPropertyProviderDeleted)
                 {
+                    Console.WriteLine();
                     return true;
                 }
-
+                Console.WriteLine();
                 return false;
             }
             catch (Exception e) {
@@ -247,7 +252,12 @@ namespace Mazindlu.Data
                     command.Parameters.Add(PropertyProviderId);
 
                     command.CommandType = System.Data.CommandType.StoredProcedure;
+                    Console.WriteLine(result);
+                    Console.WriteLine(result);
                     result = command.ExecuteNonQuery();
+                    Console.WriteLine(result);
+                    Console.WriteLine(result);
+                   
                     if (result > 0)
                     {
                         return true;
@@ -948,6 +958,10 @@ namespace Mazindlu.Data
                 Console.WriteLine(username);
                 Console.WriteLine(password);
                 propertyProvider = _context.PropertyProviders.FirstOrDefault(pp => pp.Email.Equals(username) & pp.Password.Equals(password));
+                if (propertyProvider == null)
+                {
+                    return propertyProvider;
+                }
                 int test = propertyProvider.Id; 
                 /*The line above is very important because it throws a null pointer exception if the property provider is not found
                  this allows the method to exit gracefully as the exception is caught below */
@@ -1133,7 +1147,12 @@ namespace Mazindlu.Data
         public Book GetBook(int id)
         {
             Book book = _context.Books.FirstOrDefault(b => b.Id == id);
-           // Book book = new  Book();
+
+            if (book == null)
+            {
+                return book;
+            }
+
             var bookPictures = new LinkedList<BookPicture>();
             string connectionString = Configuration.GetConnectionString("PropertyConnection");
 
@@ -1192,13 +1211,85 @@ namespace Mazindlu.Data
 
         public bool CreateBook(Book book)
         {
+            bool output = false;
             try {
-                _context.Add(book);
-                _context.SaveChanges();
-                return true;
+                //_context.Add(book);
+                //_context.SaveChanges();
+                string connectionString = Configuration.GetConnectionString("PropertyConnection");
+                SqlConnection connection = new SqlConnection(connectionString);
+                using (connection)
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand("spCreateBook", connection);
+                    using (command)
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        //SqlParameter Id = new SqlParameter();
+                        SqlParameter BookId = new SqlParameter();
+                        BookId.ParameterName = "@id";
+                        BookId.SqlDbType = System.Data.SqlDbType.Int;
+                        BookId.Value = book.Id;
+
+                        SqlParameter Title = new SqlParameter();
+                        Title.ParameterName = "@Title";
+                        Title.SqlDbType = System.Data.SqlDbType.NVarChar; 
+                        Title.Value = book.Title;
+
+                        SqlParameter Format = new SqlParameter();
+                        Format.ParameterName = "@Format";
+                        Format.SqlDbType = System.Data.SqlDbType.NVarChar; 
+                        Format.Value = book.Format;
+
+                        SqlParameter Author = new SqlParameter();
+                        Author.ParameterName = "@Author";
+                        Author.SqlDbType = System.Data.SqlDbType.NVarChar; 
+                        Author.Value = book.Author;
+
+                        SqlParameter ISBN = new SqlParameter();
+                        ISBN.ParameterName = "@ISBN";
+                        ISBN.SqlDbType = System.Data.SqlDbType.NVarChar; 
+                        ISBN.Value = book.ISBN;
+
+                        SqlParameter Price = new SqlParameter();
+                        Price.ParameterName = "@Price";
+                        Price.SqlDbType = System.Data.SqlDbType.Real;
+                        Price.Value = book.ISBN;
+
+                        SqlParameter ContactNo = new SqlParameter();
+                        ContactNo.ParameterName = "@ContactNo";
+                        ContactNo.SqlDbType = System.Data.SqlDbType.NVarChar;
+                        ContactNo.Value = book.ContactNo;
+
+                        /*
+                        SqlParameter BookProviderId = new SqlParameter();
+                        BookProviderId.ParameterName = "@BookProviderId";
+                        BookProviderId.SqlDbType = System.Data.SqlDbType.Int;
+                        BookProviderId.Value = null;
+                        */
+
+
+                        command.Parameters.Add(BookId);
+                        command.Parameters.Add(Title);
+                        command.Parameters.Add(Format);
+                        command.Parameters.Add(Author);
+                        command.Parameters.Add(ISBN);
+                        command.Parameters.Add(Price);
+                        command.Parameters.Add(ContactNo);
+                        
+
+                        Console.WriteLine(command.Parameters);
+                        Console.WriteLine(command.Parameters);
+                        Console.WriteLine(command.Parameters);
+                        byte result = (byte)(command.ExecuteNonQuery());
+                        output = (result > 0) ?  true :  false;
+                    }
+                }
+                return output;
             }
             catch (Exception e) {
-                return false;
+                Console.WriteLine();
+                Console.WriteLine();
+                return output;
             }
         }
 
@@ -1206,7 +1297,7 @@ namespace Mazindlu.Data
         {
             try
             {
-                var b = _context.Books.FirstOrDefault(b => b.Id == book.Id);
+                Book b = GetBook(book.Id);//_context.Books.FirstOrDefault(b => b.Id == book.Id);
                 // _context.Books.Remove(b);
                 DeleteBook(book.Id);
                 //_context.SaveChanges();
@@ -1222,22 +1313,56 @@ namespace Mazindlu.Data
         }
 
         public bool DeleteBook(int id)
-        {           
+        {
+            int before = _context.Books.Count<Book>();
             try {
                 var book = _context.Books.FirstOrDefault(b => b.Id == id);
+
+                if (book == null)
+                {
+                    return false;
+                }
+
+
                 int b4 = _context.Books.Count<Book>();               
 
                 if (DeleteAllBookPictures(id).Result )
                 {
-                    _context.Books.Remove(book);
+                    // _context.Books.Remove(book);
+                    string connectionString = Configuration.GetConnectionString("PropertyConnection");
+                    SqlConnection con = new SqlConnection(connectionString);
+                    using (con)
+                    {
+                        con.Open();
+                        SqlCommand command = new SqlCommand("spDeleteBook", con);
+                        command.CommandType = CommandType.StoredProcedure;
+                        using (command)
+                        {
+                            SqlParameter BookId = new SqlParameter();
+                            BookId.ParameterName = "@BookId";
+                            BookId.SqlDbType = System.Data.SqlDbType.Int;
+                            BookId.Value = id;
+                            command.Parameters.Add(BookId);
+
+                            command.ExecuteNonQuery();
+                        }
+                    }
                 }
                 else
                 {
                     Console.WriteLine("oops");
                     return false;
                 }               
-                _context.SaveChanges();
+               
                 int after = _context.Books.Count<Book>();
+                if (b4 + 1 == after)
+                {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+
 
                 return true;
             }
@@ -1564,17 +1689,52 @@ namespace Mazindlu.Data
             return bookPictureDictionary;
         }
 
-        public bool CreateBookPicture(BookPicture bookPicture)
+        public bool CreateBookPicture(int bookId, BookPicture bookPicture)
         {
             try
             {
-                _context.BookPictures.Add(bookPicture);
-                _context.SaveChanges();
-                return true;
+                //_context.BookPictures.Add(bookPicture);
+                //_context.SaveChanges();
+                string connectionString = Configuration.GetConnectionString("PropertyConnection");
+                SqlConnection connection = new SqlConnection(connectionString);
+                SqlCommand command = new SqlCommand("spCreateBookPicture", connection);
+                using (connection) {
+                    connection.Open();
+                    using (command)
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        SqlParameter BookPictureId = new SqlParameter();
+                        BookPictureId.ParameterName = "@id";
+                        BookPictureId.SqlDbType = SqlDbType.Int;
+                        BookPictureId.Value = bookPicture.Id;
+
+                        SqlParameter URI = new SqlParameter();
+                        URI.ParameterName = "@uri";
+                        URI.SqlDbType = SqlDbType.NVarChar;
+                        URI.Value = bookPicture.URI;
+
+                        SqlParameter BookId = new SqlParameter();
+                        BookId.ParameterName = "@BookId";
+                        BookId.SqlDbType = SqlDbType.Int;
+                        BookId.Value = bookId;
+
+                        command.Parameters.Add(BookPictureId);
+                        command.Parameters.Add(URI);
+                        command.Parameters.Add(BookId);
+                        Console.WriteLine("Asiye");
+                        Console.WriteLine("Asiye");
+                        command.ExecuteNonQuery();
+                    }
+                }
+
+                    return true;
             }
             catch (Exception e)
             {
-
+                Console.WriteLine(e);
+                Console.WriteLine(e);
+                Console.WriteLine(e);
                 return false;
             }
         }
@@ -1598,7 +1758,8 @@ namespace Mazindlu.Data
         public bool DeleteBookPictures(int bookId) {
             bool result;
             int output;
-            using (SqlConnection connection = new SqlConnection())
+            string connectionString = Configuration.GetConnectionString("PropertyConnection");
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
                 using (SqlCommand command = new SqlCommand("spDeleteBookPictures", connection))
