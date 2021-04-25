@@ -12,6 +12,7 @@ using Mazindlu.Data;
 using Microsoft.AspNetCore.Cors;
 using System.Net;
 using System.Web;
+using Mazindlu.Model.Enums;
 // 
 /**
  * Note ! BookProviderPicture and PropertyProviderPicture POCOs/entities/models are not created, read, updated or deleted 
@@ -85,16 +86,48 @@ namespace Mazindlu.Controllers
         [HttpPost]
         public ActionResult CreateBookProviders(BookProvider bp) {
 
+           
+            var outPut = InsertBookProvider(bp);
+            if (outPut == Http_Response.Created)
+            {
+                return Created("https://localhost:5001/jeff/bezos/bp/", bp);
+            }
+            else {
+                return NotFound();
+            }
+
+            /*
             Console.WriteLine(bp);
             Console.WriteLine(bp);
             if (mur.CreateBookProvider(bp))
             {
+                foreach (Book book in bp.Books)
+                {
+                    mur.CreateBook(bp.Id, book);
+                    
+                    foreach (BookPicture pic in book.BookPictures)
+                    {
+                        Console.WriteLine("Book pictures");
+                        Console.WriteLine("Test is beginning");
+                        mur.CreateBookPicture(book.Id,pic);
+                    }
+                    
+
+                }
+                Console.WriteLine("Test is beginning");
+                foreach (BookProviderPicture picture in bp.BookProviderPictures)
+                {
+                    Console.WriteLine("Bookprovider pictures");
+                    mur.CreateBookProviderPicture(bp.Id, picture);
+                }
+                
                 return Created("https://localhost:5001/jeff/bezos/bp/", bp);
             }
             else
             {
                 return NotFound();
             }
+            */
 
             /*
             var formData = HttpContext.Request.Form.AsEnumerable();
@@ -116,14 +149,63 @@ namespace Mazindlu.Controllers
             };
             */
         }
-        
+
+
+
+        private Http_Response InsertBookProvider(BookProvider bp) {
+
+            Console.WriteLine(bp);
+            Console.WriteLine(bp);
+            if (mur.CreateBookProvider(bp))
+            {
+                foreach (Book book in bp.Books)
+                {
+                    mur.CreateBook(bp.Id, book);
+
+                    foreach (BookPicture pic in book.BookPictures)
+                    {
+                        Console.WriteLine("Book pictures");
+                        Console.WriteLine("Test is beginning");
+                        mur.CreateBookPicture(book.Id, pic);
+                    }
+
+
+                }
+                Console.WriteLine("Test is beginning");
+                foreach (BookProviderPicture picture in bp.BookProviderPictures)
+                {
+                    Console.WriteLine("Bookprovider pictures");
+                    mur.CreateBookProviderPicture(bp.Id, picture);
+                }
+
+                return Http_Response.Created;//Created("https://localhost:5001/jeff/bezos/bp/", bp);
+            }
+            else
+            {
+                return Http_Response.NotFound;//NotFound();
+            }
+        }
+
+
         [EnableCors("MyPolicy")]
         [Route("bp/{id}")]
         [HttpPatch(/*"{id}"*/)]
         public ActionResult UpdateBookProvider(BookProvider bp)
         {
+            Boolean disappear = mur.DeleteBookProvider(bp.Id);
+            System.Threading.Thread.Sleep(100);
 
-            bool isUpdated = mur.UpdateBookProvider(bp);
+            Http_Response IsBookProviderCreated =  InsertBookProvider(bp);
+            Boolean appear = false;
+            if (IsBookProviderCreated == Http_Response.Created)
+            {
+                appear = true;
+            }
+
+           
+            Console.WriteLine(appear);
+            Console.WriteLine(disappear);
+            bool isUpdated = (disappear  && appear);
             if (isUpdated)
             {
                 return Ok();
@@ -325,13 +407,18 @@ namespace Mazindlu.Controllers
         public ActionResult<LinkedList<Property>> GetProperties(int id)
         {
             // return Ok(mur.GetProperties().Values.ToList());
-            PropertyProvider pp = new PropertyProvider() { 
-                Id = (ushort)(id)
-            };
 
-            
-            LinkedList<Property> ppList = mur.GetPropertiesOfPropertyProvider(pp);
-            return Ok(ppList);
+            if (id == null || id != 66)
+            {
+                return BadRequest();
+            }
+
+
+            Dictionary<int, Property> properties = mur.GetProperties();//new Dictionary<int, Property>();
+
+
+
+            return Ok(properties.Values.ToList());
         }
 
 
@@ -339,16 +426,25 @@ namespace Mazindlu.Controllers
         [HttpPost()]
         public ActionResult CreateProperty(Property prop)
         {
-
+            bool output = false;
             Console.WriteLine(prop);
             Console.WriteLine(prop);
-            if (mur.CreateProperty(prop))
+            output = mur.CreateProperty(prop);
+            if (output)
             {
-                return Ok(prop);
+                Console.WriteLine(output);
+                Console.WriteLine(output);
+                if (output)
+                {
+                    return Created("https://localhost:5001/jeff/bezos/p/", prop);
+                }
+                Console.WriteLine(prop);
+                Console.WriteLine(prop);
+                return BadRequest();
             }
             else
             {
-                return NotFound();
+                return BadRequest();
             }
         }
 
@@ -358,6 +454,7 @@ namespace Mazindlu.Controllers
         public ActionResult UpdateProperty(Property prop)
         {
             var property = mur.GetProperty(prop.Id);
+             Console.WriteLine(prop);
             bool success = false;
 
             if (property == null)
@@ -367,7 +464,9 @@ namespace Mazindlu.Controllers
             }
             else
             {
+                Console.WriteLine(prop);
                 mur.DeleteProperty(prop.Id);
+                Console.WriteLine(prop);
                 mur.CreateProperty(prop);
                 return NoContent();
             }
@@ -378,17 +477,27 @@ namespace Mazindlu.Controllers
         [HttpDelete()]
         public ActionResult DeleteProperty(int id)
         {
-            var property = mur.GetProperty(id);
-           
+            //var property = mur.GetProperty(id);
+            bool output = mur.DeleteProperty(id);
+            //Console.WriteLine(property);
 
-            if (property == null)
+            if (output)
             {
-                return NotFound();
+                return NoContent();// return NotFound();
             }
             else
             {
-                mur.DeleteProperty(id);
-                return NoContent();
+
+                return BadRequest();
+                //bool result1 = 
+                //bool    result = mur.DeleteProperty(id);
+                // if (result)
+                // {
+                //     return NoContent();
+                // }
+                // else {
+                //     return BadRequest();
+                // }
             }
         }
         #endregion
@@ -414,7 +523,6 @@ namespace Mazindlu.Controllers
         [HttpGet()]
         public ActionResult<List<Book>> GetBooks()
         {
-            // return Ok(mur.GetBooks().Values.ToList());
             var books = mur.GetBooks().Values.ToList();
 
 
@@ -462,7 +570,10 @@ namespace Mazindlu.Controllers
         [HttpPatch()]
         public ActionResult UpdateBook(Book book)
         {
-            var b = mur.GetBook(book.Id);
+            string[] requestStuff = Request.Path.ToString().Split('/');
+            int id = Int32.Parse(requestStuff.Last<string>());
+
+            var b = mur.GetBook(id);
             Console.WriteLine(b);
 
             if (b == null)
@@ -534,7 +645,7 @@ namespace Mazindlu.Controllers
         {
             Console.WriteLine(picture);
             Console.WriteLine(picture);
-            if (mur.CreateBookProviderPicture(picture))
+            if (mur.CreateBookProviderPicture(0,picture))
             {
                 return Created("https://localhost:5001/jeff/bezos/bpi/", picture);
             }
@@ -557,7 +668,7 @@ namespace Mazindlu.Controllers
             else
             {
                 mur.DeleteBookProviderPicture(picture.Id);
-                mur.CreateBookProviderPicture(picture);
+                mur.CreateBookProviderPicture(0,picture);
                 return NoContent();
             }
         }

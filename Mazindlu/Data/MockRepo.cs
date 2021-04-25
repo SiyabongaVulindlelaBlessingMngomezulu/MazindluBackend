@@ -317,6 +317,7 @@ namespace Mazindlu.Data
         public bool CreateProperty(Property prop)
         {
            return properties.TryAdd(prop.Id, prop);
+           
         }
 
         public bool UpdateProperty(Property prop)
@@ -358,9 +359,22 @@ namespace Mazindlu.Data
             return books;
         }
 
-        public bool CreateBook(Book book)
+        public bool CreateBook(int id,Book book)
         {
             return books.TryAdd(book.Id, book);
+        }
+
+        public bool UpdateBook(int BookProviderId, Book book) {
+
+            var result = ((book == null) || (BookProviderId  < 0))? false : true;
+            return result;
+        
+        }
+
+        public bool CreateBook(Book book)
+        {
+            // return books.TryAdd(book.Id, book);
+            return true;
         }
 
         public bool UpdateBook(Book book)
@@ -473,7 +487,7 @@ namespace Mazindlu.Data
             throw new NotImplementedException();
         }
 
-        bool IRepo.CreateBookProviderPicture(BookProviderPicture picture)
+        bool IRepo.CreateBookProviderPicture(int id, BookProviderPicture picture)
         {
             throw new NotImplementedException();
         }
@@ -509,6 +523,11 @@ namespace Mazindlu.Data
         }
 
         LinkedList<Property> IRepo.GetPropertiesOfPropertyProvider(PropertyProvider pp)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool IRepo.CreatePropertyPicture(int propertyId, PropertyPicture picture)
         {
             throw new NotImplementedException();
         }

@@ -53,8 +53,10 @@ namespace Mazindlu.Data
         public Dictionary<int, Book> GetBooks();
 
 
-        public bool CreateBook(Book book);
+        public bool CreateBook(int bookId, Book book);
 
+
+        public bool CreateBook(Book book);
 
         public bool UpdateBook(Book book);
 
@@ -63,6 +65,7 @@ namespace Mazindlu.Data
 
         public Task<bool> DeleteAllBookPictures(int id);
 
+        public bool UpdateBook(int BookProviderId, Book book);
 
         public BookPicture GetBookPicture(int id);
 
@@ -88,6 +91,8 @@ namespace Mazindlu.Data
 
 
         public bool CreatePropertyPicture(PropertyPicture picture);
+
+        public bool CreatePropertyPicture(int propertyId, PropertyPicture picture);
 
         public bool UpdatePropertyPicture(PropertyPicture picture);
 
@@ -116,7 +121,7 @@ namespace Mazindlu.Data
         public Dictionary<int, BookProviderPicture> GetBookProviderPictures();
 
 
-        public bool CreateBookProviderPicture(BookProviderPicture picture);
+        public bool CreateBookProviderPicture(int id, BookProviderPicture picture);
 
         public bool UpdateBookProviderPicture(BookProviderPicture picture);
 
