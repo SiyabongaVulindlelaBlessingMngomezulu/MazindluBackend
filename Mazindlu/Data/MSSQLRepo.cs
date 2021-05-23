@@ -1341,7 +1341,6 @@ namespace Mazindlu.Data
         public IEnumerable<PropertyProvider> GetPropertyProviders()
         {
             var propertyProviderList = _context.PropertyProviders.AsEnumerable();
-            Console.WriteLine("Hey");
             foreach(var pp in propertyProviderList) {
                 GetPropertyProviderPictureofUser(pp);
             }
@@ -1483,9 +1482,7 @@ namespace Mazindlu.Data
                 
             }
             book.BookPictures = bookPictures;
-            Console.WriteLine(book);
-            Console.WriteLine(book);
-            Console.WriteLine(book);
+          
             return book;
 
         }
@@ -1507,7 +1504,7 @@ namespace Mazindlu.Data
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.Add(BookId);
-                    Console.WriteLine(command);
+                   
                     SqlDataReader reader = command.ExecuteReader();
                     Boolean rowsExist = reader.HasRows ? true : false;
                     if (rowsExist)
@@ -1549,6 +1546,7 @@ namespace Mazindlu.Data
                 //_context.Add(book);
                 //_context.SaveChanges();
                 string connectionString = Configuration.GetConnectionString("PropertyConnection");
+                
                 SqlConnection connection = new SqlConnection(connectionString);
                 using (connection)
                 {

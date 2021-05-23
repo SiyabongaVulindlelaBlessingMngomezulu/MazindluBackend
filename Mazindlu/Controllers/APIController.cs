@@ -248,7 +248,10 @@ namespace Mazindlu.Controllers
             string[] parts = url.Split('?');
             string pathString = parts[0];
 
-
+            Console.WriteLine(username);
+            Console.WriteLine(username);
+            Console.WriteLine(password);
+            Console.WriteLine(password);
             string queryString = parts[1];
             string[] queryParameters = queryString.Split('=');
             PropertyProvider pp = null;
@@ -539,8 +542,7 @@ namespace Mazindlu.Controllers
         [HttpPost()]
         public ActionResult CreateBook(Book book)
         {
-            Console.WriteLine("We're in");
-            Console.WriteLine("We're in");
+           
             if (mur.CreateBook(book))
             {
                 bool areAllPicturesInserted = false;

@@ -46,8 +46,6 @@ C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\bin\Debug\netcoreapp3.1\runtimes\
 C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\obj\Debug\netcoreapp3.1\Mazindlu.AssemblyInfoInputs.cache
 C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\obj\Debug\netcoreapp3.1\Mazindlu.AssemblyInfo.cs
-C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\obj\Debug\netcoreapp3.1\Mazindlu.csproj.CoreCompileInputs.cache
-C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\obj\Debug\netcoreapp3.1\Mazindlu.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\obj\Debug\netcoreapp3.1\Mazindlu.RazorTargetAssemblyInfo.cache
 C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\obj\Debug\netcoreapp3.1\Mazindlu.csproj.CopyComplete
 C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\obj\Debug\netcoreapp3.1\staticwebassets\Mazindlu.StaticWebAssets.Manifest.cache
@@ -55,4 +53,12 @@ C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\obj\Debug\netcoreapp3.1\staticweb
 C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\obj\Debug\netcoreapp3.1\Mazindlu.dll
 C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\obj\Debug\netcoreapp3.1\Mazindlu.pdb
 C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\obj\Debug\netcoreapp3.1\Mazindlu.genruntimeconfig.cache
+C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\bin\Debug\netcoreapp3.1\MongoDB.Bson.dll
+C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\bin\Debug\netcoreapp3.1\DnsClient.dll
+C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\bin\Debug\netcoreapp3.1\MongoDB.Driver.dll
+C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\bin\Debug\netcoreapp3.1\MongoDB.Driver.Core.dll
+C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\bin\Debug\netcoreapp3.1\MongoDB.Libmongocrypt.dll
+C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\bin\Debug\netcoreapp3.1\SharpCompress.dll
+C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\obj\Debug\netcoreapp3.1\Mazindlu.csproj.CoreCompileInputs.cache
+C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\obj\Debug\netcoreapp3.1\Mazindlu.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\obj\Debug\netcoreapp3.1\Mazindlu.csprojAssemblyReference.cache

@@ -15,16 +15,14 @@ namespace Mazindlu.Data
     {
         public ushort count;
         private IMongoDatabase db;
-        public IMongoCollection<BsonDocument> BookProviders;
-        public IMongoCollection<BsonDocument> PropertyProviders;
-        public IAsyncCursor<BsonDocument>[] cursorz;
-        private readonly IConfiguration Configuration;
+        public IMongoCollection<BookProvider> BookProviders;
+        public IMongoCollection<PropertyProvider> PropertyProviders;
+        
         public MongoRepo(IConfiguration Configuration)
         {
-            cursorz = new IAsyncCursor<BsonDocument>[100];
-            this.Configuration = Configuration;
+           
             //PropertyProviders
-            db = ConnectToMongo("PropertyDatabase");
+            db = ConnectToMongo("Mazindlu");
             //PropertyProviders = db.GetCollection<BsonDocument>("PropertyProvider");
 
 
@@ -39,8 +37,8 @@ namespace Mazindlu.Data
                 //var client = new MongoClient("mongodb+srv://user:pass@veecluster5-v8vvu.mongodb.net/<dbname>?retryWrites=true&w=majority");/*atlas*/
                 var db = client.GetDatabase(database);
 
-                BookProviders = db.GetCollection<BsonDocument>("BookProvider");
-                PropertyProviders = db.GetCollection<BsonDocument>("PropertyProvider");
+                BookProviders = db.GetCollection<BookProvider>("BookProvider");
+                PropertyProviders = db.GetCollection<PropertyProvider>("PropertyProvider");
             }
             catch (Exception)
             {
@@ -115,65 +113,15 @@ namespace Mazindlu.Data
 
         public void CreatePropertyProvider(PropertyProvider user)
         {
-            Console.WriteLine("Here we go");
             try
             {
-                BsonDocument b = new BsonDocument {
-                    {"PropertyProviderID", user.Id},
-                    {"Name" , user.Name },
-                    {"Surname", user.Surname},
-                    {"Email", user.Email},
-                    {"Password", user.Password},
-                   // {"Properties", new BsonArray{ } },
-                    {"ShortBio", user.ShortBio},
-                    //{"PropertyProviderPictures", new BsonArray()}
-                };
-                
-                BsonArray properties = new BsonArray();
-                foreach (var property in user.Properties)
-                {
-                    var prop = new BsonDocument{
-                        {"PropertyId", property.Id},
-                        {"Name", property.Name},
-                        //{"pictures", new BsonArray()},
-                        { "Description", property.Description},
-                        {"price", property.Price}
-                    };
-                    BsonArray pictures = new BsonArray();
-                    foreach (var picture in property.Pictures)
-                    {
-                        var pic = new BsonDocument {
-                            {"PropertyPictureId", picture.Id},
-                            {"URI", picture.URI}
-                        };
-                        pictures.Add(pic);
-
-                    }
-                    prop.Add("pictures", pictures);
-                    properties.Add(prop);
-                }
-                b.Add("Properties",properties);
-                
-
-                var propertyProviderPictures = new BsonArray();
-                foreach (var propertyProviderPicture in user.PropertyProviderPictures)
-                {
-                    propertyProviderPictures.Add(
-                        new BsonDocument {
-                            {"PropertyProviderPictureId", propertyProviderPicture.Id},
-                            {"URI", propertyProviderPicture.URI}
-                        }
-                    );
-                }
-                //b.Add(propertyProviderPictures);
-                b.Add("propertyProviderPictures", propertyProviderPictures);
-                PropertyProviders.InsertOne(b);
-                Console.WriteLine("Success !" + b);
+                PropertyProviders.InsertOne(user);
             }
-            catch (ArgumentNullException ane)
+            catch (Exception e )
             {
-                Console.WriteLine("Failure");
+                Console.WriteLine("An exception has occured, here are some ");
             }
+            
         }
 
         bool IRepo.CreatePropertyProviderPicture(PropertyProviderPicture picture)
@@ -306,42 +254,7 @@ namespace Mazindlu.Data
             PropertyProvider propertyProvider = null;
             try
             {
-                var builder = Builders<BsonDocument>.Filter;
-                var filter = builder.Eq("Email", username); //& builder.Eq("Password", password);
-                var result1 = PropertyProviders.Find(filter);
-                var filitaz = new BsonDocument { { "Email", username } };
-
-                var myBee = PropertyProviders.Find(filitaz);
-                Console.WriteLine(myBee);
-                Console.WriteLine(myBee);
-                Console.WriteLine(myBee);
-
-                Console.WriteLine(result1);
-                Console.WriteLine(result1);
-                cursorz[++count] = result1.ToCursor();
-
-                Console.WriteLine(cursorz);
-                Console.WriteLine(cursorz);
-
-                Console.WriteLine(username);
-                Console.WriteLine(username);
-                Console.WriteLine(password);
-                Console.WriteLine(password);
-
-                var property_Provider = cursorz[count].First<BsonDocument>();
-                propertyProvider = new PropertyProvider()
-                {
-                    Id = (UInt16)(property_Provider.GetElement("PropertProviderID").Value),
-                    Name = property_Provider.GetElement("Name").Value.ToString(),
-                    Surname = property_Provider.GetElement("Surname").Value.ToString(),
-                    Email = property_Provider.GetElement("Email").Value.ToString(),
-                    Password = property_Provider.GetElement("Password").Value.ToString(),
-                    ShortBio = property_Provider.GetElement("ShortBio").Value.ToString(),
-                    //Properties = (LinkedList<Properties>)(property_Provider.GetElement("Properties").Value.AsBsonArray.AsEnumerable())
-                };
-                var diswan = property_Provider.GetElement("Properties").Value.AsBsonArray;
-                Console.WriteLine(diswan);
-                Console.WriteLine(diswan);
+                
             }
             catch (KeyNotFoundException knfe) {
                 Console.WriteLine("here kay?: " + knfe);

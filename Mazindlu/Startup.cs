@@ -31,12 +31,16 @@ namespace Mazindlu
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        ///
         public void ConfigureServices(IServiceCollection services)
         {
             //services.Configure<MSSQLRepo>(Configuration.GetSection("MySettings"));
+
+            
             services.AddDbContext<ApplicationContext>(opt => opt.UseSqlServer(
                     Configuration.GetConnectionString("PropertyConnection")
-                ));           
+                )); 
+            
 
             //Configuring Cross Origin Resource Sharing so that app can receive browser based JS web requests 
              services.AddCors(options =>
@@ -51,7 +55,7 @@ namespace Mazindlu
             services.AddControllers();
             
             //***NB! Dependency injection allows for the use of IRepo interface to represent a concrete implementation  
-            services.AddScoped<IRepo, MSSQLRepo>();
+            services.AddScoped<IRepo, MongoRepo>();
         }
 
         // This method gets called by the runtime(CLR). Use this method to configure the HTTP request pipeline.
