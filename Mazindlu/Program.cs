@@ -25,37 +25,18 @@ namespace Mazindlu
             /*
             BsonClassMap.RegisterClassMap<User>(cm => { 
                 
-                cm.MapProperty(user => user.Id).SetElementName("Id");
-                cm.MapProperty(user => user.Name).SetElementName("Name");
-                cm.MapProperty(user => user.Surname).SetElementName("Surname");
-                cm.MapProperty(user => user.Email).SetElementName("Email");
-                cm.MapProperty(user => user.Password).SetElementName("Password");
-                cm.MapProperty(user => user.ShortBio).SetElementName("ShortBio");
-                
-                
             });
             */
            
-            BsonClassMap.RegisterClassMap<PropertyProvider>(cm => {
-                
-                cm.MapProperty(user => user.PropertyProviderPictures).SetElementName("PropertyProviderPictures");
-                cm.MapProperty(user => user.PropertyProviderPictures).SetElementName("Properties");
+           
 
-            
-                cm.MapProperty(user => user.Id).SetElementName("Id");
-                cm.MapProperty(user => user.Name).SetElementName("Name");
-                cm.MapProperty(user => user.Surname).SetElementName("Surname");
-                cm.MapProperty(user => user.Email).SetElementName("Email");
-                cm.MapProperty(user => user.Password).SetElementName("Password");
-                cm.MapProperty(user => user.ShortBio).SetElementName("ShortBio");
-                               
-            });
-            
+
+
 
             BsonClassMap.RegisterClassMap<BookProvider>(cm => {
                 /*
                 cm.MapProperty(user => user.BookProviderPictures).SetElementName("BookProviderPicture");
-                cm.MapProperty(user => user.Books).SetElementName("Books");                             
+                cm.MapProperty(user => user.Books).SetElementName("Books");                 
                 cm.MapIdProperty(user => user.Books).SetElementName(" Books");
                 cm.MapProperty(user => user.Id).SetElementName("Id");
                 cm.MapProperty(user => user.Name).SetElementName("Name");
@@ -63,9 +44,7 @@ namespace Mazindlu
                 cm.MapProperty(user => user.Email).SetElementName("Email");
                 cm.MapProperty(user => user.Password).SetElementName("Password");
                 cm.MapProperty(user => user.ShortBio).SetElementName("ShortBio");
-                */
-                
-                
+                */               
             });
         }
 

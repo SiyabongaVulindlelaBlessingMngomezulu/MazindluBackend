@@ -255,6 +255,7 @@ namespace Mazindlu.Controllers
             string queryString = parts[1];
             string[] queryParameters = queryString.Split('=');
             PropertyProvider pp = null;
+
             pp = mur.GetPropertyProvider(username,password);
             
             if (pp == null) {
@@ -291,7 +292,7 @@ namespace Mazindlu.Controllers
 
             if (!(relativeURI.Contains('?')) || !(relativeURI.Contains('&')))
             {
-                IEnumerable<PropertyProvider> propertyprovidersList = mur.GetPropertyProviders();
+                List<PropertyProvider> propertyprovidersList = (List<PropertyProvider>)(mur.GetPropertyProviders());
                 Console.WriteLine(propertyprovidersList);
                 return Ok(propertyprovidersList);
             }
@@ -329,7 +330,7 @@ namespace Mazindlu.Controllers
         [HttpPost]
         public ActionResult CreatePropertyProvider(PropertyProvider pp) 
         {
-            Console.WriteLine(Request.Path);
+            //Console.WriteLine(Request.Path);
             Console.WriteLine(pp);
             Console.WriteLine(pp);
             Random rand = new Random();

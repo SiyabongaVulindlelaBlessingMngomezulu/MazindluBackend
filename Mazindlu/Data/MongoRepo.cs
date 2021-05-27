@@ -164,9 +164,36 @@ namespace Mazindlu.Data
             throw new NotImplementedException();
         }
 
-        bool IRepo.DeletePropertyProvider(ushort id)
+        public bool DeletePropertyProvider(ushort id)
         {
-            throw new NotImplementedException();
+            var filter = Builders<PropertyProvider>.Filter.Eq(x => x.Id, id);
+            try
+            {
+                if (PropertyProviders.Find(filter).Single() == null)
+                {
+                    return false;
+                }
+
+                
+                PropertyProviders.DeleteOne(filter);
+                //pp = PropertyProviders.Find(filter).Single();
+
+                if (PropertyProviders.Find(filter).Single() == null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+
+                return false;
+            }
+            
+            
         }
 
         bool IRepo.DeletePropertyProviderPicture(int id)
@@ -229,9 +256,9 @@ namespace Mazindlu.Data
             throw new NotImplementedException();
         }
 
-        LinkedList<Property> IRepo.GetPropertiesOfPropertyProvider(PropertyProvider pp)
+        public LinkedList<Property> GetPropertiesOfPropertyProvider(PropertyProvider pp)
         {
-            throw new NotImplementedException();
+            return new LinkedList<Property>();
         }
 
         Property IRepo.GetProperty(int id)
@@ -249,20 +276,26 @@ namespace Mazindlu.Data
             throw new NotImplementedException();
         }
 
-        public PropertyProvider GetPropertyProvider(string username, string password)
+        public PropertyProvider GetPropertyProvider(string username, string password) 
         {
             PropertyProvider propertyProvider = null;
             try
             {
-                
+                propertyProvider = PropertyProviders.Find(x => x.Email == username && x.Password == password).Single();
+                /*
+                if (propertyProvider == null)
+                {
+                    throw new NullReferenceException();
+                }
+                */
             }
             catch (KeyNotFoundException knfe) {
-                Console.WriteLine("here kay?: " + knfe);
+                Console.WriteLine("An exception has occured \n Here are some details " + knfe);
                 return propertyProvider;
             }
             catch (Exception e)
             {
-                Console.WriteLine("here: " + e);
+                Console.WriteLine("An exception has occured \n Here are some details " + e);
                 return propertyProvider;
             }
             
@@ -287,9 +320,10 @@ namespace Mazindlu.Data
             throw new NotImplementedException();
         }
 
-        IEnumerable<PropertyProvider> IRepo.GetPropertyProviders()
+        public IEnumerable<PropertyProvider> GetPropertyProviders()
         {
-            throw new NotImplementedException();
+            //LinkedList<PropertyProvider> pps = new LinkedList<PropertyProvider>();
+            return PropertyProviders.Find("{}").ToList<PropertyProvider>();
         }
 
         bool IRepo.UpdateBook(Book book)
@@ -327,9 +361,17 @@ namespace Mazindlu.Data
             throw new NotImplementedException();
         }
 
-        bool IRepo.UpdatePropertyProvider(PropertyProvider user)
+        public bool UpdatePropertyProvider(PropertyProvider user)
         {
-            throw new NotImplementedException();
+            var filter = Builders<PropertyProvider>.Filter.Eq(x => x.Id, user.Id);
+            var result = PropertyProviders.ReplaceOne(filter, user);
+            //return true;
+            if (GetPropertyProvider(user.Email, user.Password) == null)
+            {
+                return false;
+            }
+            return true;
+
         }
 
         bool IRepo.UpdatePropertyProviderPicture(PropertyProviderPicture picture)

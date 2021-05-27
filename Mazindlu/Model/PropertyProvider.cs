@@ -32,19 +32,19 @@ namespace Mazindlu.Model
             properties = new LinkedList<Property>();
             propertyProviderPictures = new LinkedList<PropertyProviderPicture>();
         }
-        [BsonId()]
+        //[BsonId()]
         public ushort Id { get; set; }
 
-        [BsonElement("Name")]
+        //[BsonElement("Name")]
         public string Name { get; set; }
-        [BsonElement("Surname")]
+        //[BsonElement("Surname")]
         public string Surname { get; set; }
-        [BsonElement("Email")]
+        //[BsonElement("Email")]
         public string Email { get; set; }
         [Required]
-        [BsonElement("Password")]
+        //[BsonElement("Password")]
         public string Password { get; set; }
-        [BsonElement("ShortBio")]
+        //[BsonElement("ShortBio")]
         public string ShortBio { get; set; }
 
 
