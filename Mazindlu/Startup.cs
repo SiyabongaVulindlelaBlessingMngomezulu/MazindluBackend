@@ -97,7 +97,7 @@ namespace Mazindlu
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
             app.UseCors(policyName);//Between  app.UseRouting() & app.UseAuthorization() for it to work(MS docs)

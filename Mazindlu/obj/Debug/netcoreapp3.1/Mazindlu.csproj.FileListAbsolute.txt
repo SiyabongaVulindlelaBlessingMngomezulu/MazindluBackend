@@ -59,6 +59,15 @@ C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\bin\Debug\netcoreapp3.1\MongoDB.D
 C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\bin\Debug\netcoreapp3.1\MongoDB.Driver.Core.dll
 C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\bin\Debug\netcoreapp3.1\MongoDB.Libmongocrypt.dll
 C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\bin\Debug\netcoreapp3.1\SharpCompress.dll
+C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\obj\Debug\netcoreapp3.1\Mazindlu.csprojAssemblyReference.cache
+C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Logging.dll
+C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.dll
+C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Tokens.dll
+C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\bin\Debug\netcoreapp3.1\System.IdentityModel.Tokens.Jwt.dll
 C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\obj\Debug\netcoreapp3.1\Mazindlu.csproj.CoreCompileInputs.cache
 C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\obj\Debug\netcoreapp3.1\Mazindlu.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\obj\Debug\netcoreapp3.1\Mazindlu.csprojAssemblyReference.cache
+C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\bin\Debug\netcoreapp3.1\Castle.Core.dll
+C:\Users\NBUser\source\repos\Mazindlu\Mazindlu\bin\Debug\netcoreapp3.1\Castle.Windsor.dll

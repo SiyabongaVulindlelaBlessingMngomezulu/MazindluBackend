@@ -13,6 +13,9 @@ using Microsoft.AspNetCore.Cors;
 using System.Net;
 using System.Web;
 using Mazindlu.Model.Enums;
+using Mvumeli.Model;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 // 
 /**
  * Note ! BookProviderPicture and PropertyProviderPicture POCOs/entities/models are not created, read, updated or deleted 
@@ -23,7 +26,8 @@ using Mazindlu.Model.Enums;
  * **/
 namespace Mazindlu.Controllers
 {
-    [Route("jeff/bezos/")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Route("jeff/bezos")]
     [ApiController]
     public class APIController : ControllerBase
     {    
@@ -32,6 +36,18 @@ namespace Mazindlu.Controllers
         {
             mur = _mur;
         }
+
+        [Route("Testing")]
+        public ActionResult<List<Thing>> GetList()
+        {
+            Console.WriteLine("Yes");
+            Console.WriteLine("Yes");
+            return Ok(new List<Thing> { 
+                new Thing{Word = "value1"}, 
+                new Thing{Word = "value2" } 
+            });
+        }
+
 
         [EnableCors("MyPolicy")]
         //BookProvider RESTful API endpoints       
@@ -275,7 +291,7 @@ namespace Mazindlu.Controllers
 
             HttpContext context = Request.HttpContext;
             
-            string url = Microsoft.AspNetCore.Http.Extensions.UriHelper.GetEncodedUrl(context.Request);
+           string url = Microsoft.AspNetCore.Http.Extensions.UriHelper.GetEncodedUrl(context.Request);
            
             string relativeURI = Microsoft.AspNetCore.Http.Extensions.UriHelper.GetEncodedPathAndQuery(Request);
 
@@ -356,8 +372,6 @@ namespace Mazindlu.Controllers
         [Route("pp/{id}")]
         [HttpPatch()]
         public ActionResult UpdatePropertyProvider(PropertyProvider pp) {
-
-           
             string path   = Request.Path;
             string[] things = path.Split('/');
             pp.Id = UInt16.Parse(things.Last<string>());
@@ -368,7 +382,7 @@ namespace Mazindlu.Controllers
                 return Ok();
             }
             else {
-
+                
                 return NotFound();
             }
 
