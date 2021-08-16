@@ -1,13 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "JNf/EH2c9KJFGY/J7G5nyl1+XsJ7YHCs27sBKB0SVftb1vUhu/WH74ZDqCpRl60XQQzDZt7jXYBSgoXf3Sd8QA==",
+  "dgSpecHash": "GlQLe2XDvIOflbcCHvDCbYn9S/xbMBtS/VWAGTfDqHmNtdF2bnby0MQoe22KRuaF2fj+iM8aL46OWBSzf93cSw==",
   "success": true,
   "projectFilePath": "C:\\Users\\NBUser\\source\\repos\\Mazindlu\\Mazindlu\\Mazindlu.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\NBUser\\.nuget\\packages\\automapper\\9.0.0\\automapper.9.0.0.nupkg.sha512",
     "C:\\Users\\NBUser\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\7.0.0\\automapper.extensions.microsoft.dependencyinjection.7.0.0.nupkg.sha512",
-    "C:\\Users\\NBUser\\.nuget\\packages\\castle.core\\3.1.0\\castle.core.3.1.0.nupkg.sha512",
-    "C:\\Users\\NBUser\\.nuget\\packages\\castle.windsor\\3.1.0\\castle.windsor.3.1.0.nupkg.sha512",
     "C:\\Users\\NBUser\\.nuget\\packages\\dnsclient\\1.3.1\\dnsclient.1.3.1.nupkg.sha512",
     "C:\\Users\\NBUser\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\3.1.3\\microsoft.aspnetcore.authentication.jwtbearer.3.1.3.nupkg.sha512",
     "C:\\Users\\NBUser\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\3.1.3\\microsoft.aspnetcore.jsonpatch.3.1.3.nupkg.sha512",
@@ -160,26 +158,5 @@
     "C:\\Users\\NBUser\\.nuget\\packages\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512",
     "C:\\Users\\NBUser\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'Castle.Core 3.1.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETCoreApp,Version=v3.1'. This package may not be fully compatible with your project.",
-      "libraryId": "Castle.Core",
-      "targetGraphs": [
-        ".NETCoreApp,Version=v3.1"
-      ]
-    },
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'Castle.Windsor 3.1.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETCoreApp,Version=v3.1'. This package may not be fully compatible with your project.",
-      "libraryId": "Castle.Windsor",
-      "targetGraphs": [
-        ".NETCoreApp,Version=v3.1"
-      ]
-    }
-  ]
+  "logs": []
 }

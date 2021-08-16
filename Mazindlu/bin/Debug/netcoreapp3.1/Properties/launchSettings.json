@@ -17,6 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
+
     "Mazindlu": {
       "commandName": "Project",
       "launchBrowser": false,

@@ -26,7 +26,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
  * **/
 namespace Mazindlu.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("jeff/bezos")]
     [ApiController]
     public class APIController : ControllerBase
@@ -55,8 +55,6 @@ namespace Mazindlu.Controllers
         #region
         [HttpGet()]
         public ActionResult<BookProvider> GetBookProvider(string username, string password) {
-            Console.WriteLine();
-            Console.WriteLine();
             var bp = mur.GetBookProvider(username, password);
             if (bp != null) {  
                 
@@ -96,74 +94,21 @@ namespace Mazindlu.Controllers
 
         }
 
-
+        [AllowAnonymous]
         [EnableCors("MyPolicy")]
-        [Route("bp/")]
+        [Route("bp")]
         [HttpPost]
         public ActionResult CreateBookProviders(BookProvider bp) {
 
            
-            var outPut = InsertBookProvider(bp);
-            if (outPut == Http_Response.Created)
+            //var outPut = InsertBookProvider(bp);
+            if (mur.CreateBookProvider(bp)/*outPut == Http_Response.Created*/)
             {
                 return Created("https://localhost:5001/jeff/bezos/bp/", bp);
             }
             else {
                 return NotFound();
             }
-
-            /*
-            Console.WriteLine(bp);
-            Console.WriteLine(bp);
-            if (mur.CreateBookProvider(bp))
-            {
-                foreach (Book book in bp.Books)
-                {
-                    mur.CreateBook(bp.Id, book);
-                    
-                    foreach (BookPicture pic in book.BookPictures)
-                    {
-                        Console.WriteLine("Book pictures");
-                        Console.WriteLine("Test is beginning");
-                        mur.CreateBookPicture(book.Id,pic);
-                    }
-                    
-
-                }
-                Console.WriteLine("Test is beginning");
-                foreach (BookProviderPicture picture in bp.BookProviderPictures)
-                {
-                    Console.WriteLine("Bookprovider pictures");
-                    mur.CreateBookProviderPicture(bp.Id, picture);
-                }
-                
-                return Created("https://localhost:5001/jeff/bezos/bp/", bp);
-            }
-            else
-            {
-                return NotFound();
-            }
-            */
-
-            /*
-            var formData = HttpContext.Request.Form.AsEnumerable();
-
-            //var response = formData.
-            var id = formData.ElementAt(0).Value;
-            var email = formData.ElementAt(1).Value;
-            var password = formData.ElementAt(2).Value;
-            var shortBio = formData.ElementAt(3).Value;
-            var profilePic = formData.ElementAt(4).Value;
-
-            var bp = new BookProvider()
-            {
-                Id = (ushort)(Int32.Parse(id.ToString())),
-                Email = email.ToString(),
-                Password = password.ToString(),
-                ShortBio = shortBio.ToString(),
-                ProfilePic = new Picture() { Id = 123, URI = profilePic.ToString() }
-            };
-            */
         }
 
 
@@ -445,19 +390,13 @@ namespace Mazindlu.Controllers
         public ActionResult CreateProperty(Property prop)
         {
             bool output = false;
-            Console.WriteLine(prop);
-            Console.WriteLine(prop);
             output = mur.CreateProperty(prop);
             if (output)
             {
-                Console.WriteLine(output);
-                Console.WriteLine(output);
                 if (output)
                 {
                     return Created("https://localhost:5001/jeff/bezos/p/", prop);
                 }
-                Console.WriteLine(prop);
-                Console.WriteLine(prop);
                 return BadRequest();
             }
             else
@@ -655,13 +594,12 @@ namespace Mazindlu.Controllers
             return Ok(mur.GetBookProviderPictures().Values.ToList());
         }
 
-
+        
         [Route("bpi/")]
         [HttpPost()]
         public ActionResult CreateBookProviderPicture(BookProviderPicture picture)
         {
-            Console.WriteLine(picture);
-            Console.WriteLine(picture);
+
             if (mur.CreateBookProviderPicture(0,picture))
             {
                 return Created("https://localhost:5001/jeff/bezos/bpi/", picture);
@@ -695,10 +633,7 @@ namespace Mazindlu.Controllers
         [HttpDelete()]
         public ActionResult DeleteBookProviderPicture(int id)
         {
-            Console.WriteLine(8345);
-           // var picture = mur.GetPicture(id);
-            Console.WriteLine(8345);
-            Console.WriteLine(8345);
+
             bool success = mur.DeleteBookPicture(id);
             if (success)
             {

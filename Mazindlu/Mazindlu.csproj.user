@@ -5,5 +5,6 @@
   </PropertyGroup>
   <PropertyGroup>
     <ActiveDebugProfile>Mazindlu</ActiveDebugProfile>
+    <NameOfLastUsedPublishProfile>registry.hub.docker.com__organization name_</NameOfLastUsedPublishProfile>
   </PropertyGroup>
 </Project>

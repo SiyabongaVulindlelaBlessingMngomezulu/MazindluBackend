@@ -33,10 +33,8 @@ namespace Mazindlu.Data
         {
             try
             {
-                var client = new MongoClient("mongodb://127.0.0.1:27017/"); 
-                //var client = new MongoClient("mongodb+srv://user:pass@veecluster5-v8vvu.mongodb.net/<dbname>?retryWrites=true&w=majority");/*atlas*/
+                var client = new MongoClient("mongodb://localhost:27017"); 
                 var db = client.GetDatabase(database);
-
                 BookProviders = db.GetCollection<BookProvider>("BookProvider");
                 PropertyProviders = db.GetCollection<PropertyProvider>("PropertyProvider");
             }
@@ -86,9 +84,16 @@ namespace Mazindlu.Data
             throw new NotImplementedException();
         }
 
-        bool IRepo.CreateBookProvider(BookProvider user)
+        public bool CreateBookProvider(BookProvider user)
         {
-            throw new NotImplementedException();
+            
+            try{
+             
+                BookProviders.InsertOne(user);
+                return true;
+            }catch(Exception e){
+                return false;
+            }
         }
 
         bool IRepo.CreateBookProviderPicture(int id, BookProviderPicture picture)

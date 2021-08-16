@@ -13,7 +13,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson.Serialization;
 using Mazindlu.Model;
-//using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Mazindlu
 {
@@ -50,24 +52,21 @@ namespace Mazindlu
                 cm.MapProperty(user => user.Password).SetElementName("Password");
                 cm.MapProperty(user => user.ShortBio).SetElementName("ShortBio");
             });
-
             /*
-            BsonClassMap.RegisterClassMap<Property>(cm => {
-                cm.MapIdProperty(property => property.Id).SetElementName("Id");
-                cm.MapProperty(property => property.Name).SetElementName("Name");
-                cm.MapProperty(property => property.Pictures).SetElementName("Pictures");
-                cm.MapProperty(property => property.Description).SetElementName("Description");
-                cm.MapProperty(property => property.Price).SetElementName("Price");
-            });
-
-            BsonClassMap.RegisterClassMap<PropertyPicture>(cm => {
-                cm.MapIdProperty(propertyPicture => propertyPicture.Id).SetElementName("Id");
-                cm.MapProperty(propertyPicture => propertyPicture.URI).SetElementName("URI");
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = Configuration["uMnini"],
+                    ValidAudience = Configuration["uMnini"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Isikhiye"]))
+                };
             });
             */
-
-
-
+            
             services.AddDbContext<ApplicationContext>(opt => opt.UseSqlServer(
                     Configuration.GetConnectionString("PropertyConnection")
                 )); 
@@ -100,8 +99,8 @@ namespace Mazindlu
             //app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseCors(policyName);//Between  app.UseRouting() & app.UseAuthorization() for it to work(MS docs)
-            app.UseAuthorization();
+            app.UseCors(policyName);
+            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
